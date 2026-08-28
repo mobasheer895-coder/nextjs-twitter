@@ -1,6 +1,6 @@
 # Twitter Backend API
 
-مشروع Back-end مبني باستخدام Next.js App Router و Prisma ORM يوفر خدمات توثيق المستخدمين، وإدارة التغريدات، والمتابعات.
+
 
 ---
 
