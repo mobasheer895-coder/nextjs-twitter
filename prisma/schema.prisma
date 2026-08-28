@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+
+model User {
+  id Int @id @default(autoincrement())
+  fullName String
+  email String @unique @db.VarChar(100)
+  password String
+  imageUser String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  follower Followes[] @relation("follower")
+  following Followes[] @relation("following")
+
+  post Posts[]
+
+  like Likes[]
+}
+
+model Followes {
+  id Int @id @default(autoincrement())
+  followerId Int
+  follower User @relation("follower",fields: [followerId],references: [id])
+  followingId Int
+  following User @relation("following",fields: [followingId],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([followerId, followingId])
+}
+
+model Posts {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  description String
+  imagePost String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  like Likes[]
+}
+
+model Likes {
+  id Int @id @default(autoincrement())
+  postId Int
+  post Posts @relation(fields: [postId],references: [id])
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, postId])
+}
