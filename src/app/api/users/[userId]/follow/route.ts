@@ -3,12 +3,12 @@ import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 interface props {
-    params:Promise<{ id: string }>
+    params:Promise<{ userId: string }>
 }
 
 export async function POST(request:NextRequest,{params}:props) {
     try {
-        const userId = parseInt((await params).id)
+        const userId = parseInt((await params).userId)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
@@ -69,7 +69,7 @@ export async function POST(request:NextRequest,{params}:props) {
 export async function DELETE(request:NextRequest,{params}:props) {
     try {
         
-    const userId = parseInt((await params).id)
+    const userId = parseInt((await params).userId)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
