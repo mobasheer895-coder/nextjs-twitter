@@ -22,8 +22,7 @@ export async function GET(request:NextRequest) {
             }
         })
 
-        const followingIds = following.map((follow) => follow.followingId)
-
+const followingIds = following.map((follow: { followingId: number }) => follow.followingId)
         const feedPosts = await prisma.posts.findMany({
             where:{
                 userId:{
