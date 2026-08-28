@@ -6,7 +6,7 @@ import fs from 'fs';
 import { buffer } from "stream/consumers";
 import { postSchima } from "@/utils/validationsSchema";
 interface props {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }
 
 export async function GET(request:NextRequest,{params}:props) {
