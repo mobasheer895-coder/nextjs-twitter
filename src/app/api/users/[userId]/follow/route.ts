@@ -2,13 +2,9 @@ import { authenticateUser } from "@/app/midelware/authenticateUser";
 import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-// interface props {
-    
-// }
-
-export async function POST(request: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
+export async function POST(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
-        const userId = parseInt((await params).userId)
+        const userId = parseInt(params.userId)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
@@ -30,34 +26,34 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         })
 
         if (!followingUser) {
-    return NextResponse.json(
-        { message: 'User not found' },
-        { status: 404 }
-    )
-}
-
-    const existingFollow = await prisma.followes.findFirst({
-        where:{
-            followerId:userPayload.id,
-            followingId:userId
+            return NextResponse.json(
+                { message: 'User not found' },
+                { status: 404 }
+            )
         }
-    })
 
-    if (existingFollow) {
-        return NextResponse.json(
-            {message:'You are already following this user'},
-            {status:400}
-        )
-    }
+        const existingFollow = await prisma.followes.findFirst({
+            where:{
+                followerId: userPayload.id,
+                followingId: userId
+            }
+        })
 
-    const newFollow = await prisma.followes.create({
-        data:{
-            followerId:userPayload.id,
-            followingId:userId
+        if (existingFollow) {
+            return NextResponse.json(
+                {message:'You are already following this user'},
+                {status:400}
+            )
         }
-    })
 
-    return NextResponse.json({message: 'User followed successfully', newFollow} , {status:201})
+        const newFollow = await prisma.followes.create({
+            data:{
+                followerId: userPayload.id,
+                followingId: userId
+            }
+        })
+
+        return NextResponse.json({message: 'User followed successfully', newFollow} , {status:201})
 
     } catch (error) {
         return NextResponse.json(
@@ -66,10 +62,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         )
     }
 }
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
+
+export async function DELETE(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
-        
-    const userId = parseInt((await params).userId)
+        const userId = parseInt(params.userId)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
@@ -94,10 +90,10 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
         }
 
         const deletefollow = await prisma.followes.delete({
-            where:{id:existingFollow.id}
+            where:{id: existingFollow.id}
         })
 
-        return NextResponse.json({message:'Unfollowed successfully',deletefollow} , {status:200})
+        return NextResponse.json({message:'Unfollowed successfully', deletefollow} , {status:200})
     } catch (error) {
         return NextResponse.json(
             {message:'internal server error'},
