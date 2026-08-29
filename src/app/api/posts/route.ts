@@ -145,10 +145,10 @@ export async function GET(request:NextRequest) {
     )
 
 
-    } catch (error) {
-        return NextResponse.json(
-            {message:'internal server error'},
-            {status:500}
-        )
-    }
+    } catch (error: any) {
+  return NextResponse.json(
+    { message: "internal server error", error: error.message || String(error) },
+    { status: 500 }
+  );
+}
 }
