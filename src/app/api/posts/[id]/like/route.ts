@@ -2,7 +2,7 @@ import { authenticateUser } from "@/app/midelware/authenticateUser";
 import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 interface props {
-    params: { id: string }
+    params: Promise<{ id: string }>;
 }
 export async function POST(request:NextRequest,{params}:props) {
     try {

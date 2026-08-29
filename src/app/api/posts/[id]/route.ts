@@ -6,13 +6,13 @@ import fs from 'fs';
 import { buffer } from "stream/consumers";
 import { postSchima } from "@/utils/validationsSchema";
 interface props {
-    params: Promise<{ postId: string }>
+    params: Promise<{ id: string }>
 }
 
 export async function GET(request:NextRequest,{params}: props) {
     try {
 
-        const postId  = parseInt((await params).postId)
+        const postId  = parseInt((await params).id)
 
         const userPayload = await authenticateUser()
 
@@ -48,7 +48,7 @@ export async function GET(request:NextRequest,{params}: props) {
 
 export async function PUT(request: NextRequest, { params }: props) {
     try {
-const postId = parseInt((await params).postId)
+const postId = parseInt((await params).id)
 
         const userPayload = await authenticateUser()
 
@@ -151,7 +151,7 @@ const postId = parseInt((await params).postId)
 
 export async function DELETE(request: NextRequest, { params }: props) {
     try {
-        const postId = parseInt((await params).postId)
+        const postId = parseInt((await params).id)
 
         const userPayload = await authenticateUser()
 
