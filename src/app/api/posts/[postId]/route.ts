@@ -9,10 +9,10 @@ interface props {
     params: Promise<{ postId: string }>
 }
 
-export async function GET(request:NextRequest,{params}:props) {
+export async function GET(request:NextRequest,{params}: props) {
     try {
 
-        const postId = parseInt((await params).postId)
+        const postId  = parseInt((await params).postId)
 
         const userPayload = await authenticateUser()
 

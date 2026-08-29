@@ -3,12 +3,12 @@ import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 interface props {
-    params:Promise<{ userId: string }>
+    params:{ userId: string }
 }
 
 export async function POST(request:NextRequest,{params}:props) {
     try {
-        const userId = parseInt((await params).userId)
+        const userId = parseInt(params.userId)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
