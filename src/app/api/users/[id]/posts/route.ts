@@ -3,13 +3,13 @@ import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 interface props {
     params:Promise<{
-        userId:string
+        id:string
     }>
 }
 
 export async function GET(request:NextRequest,{ params }: props) {
     try {
-        const userId = parseInt((await params).userId)
+        const userId = parseInt((await params).id)
 
     const userPayload = await authenticateUser()
 

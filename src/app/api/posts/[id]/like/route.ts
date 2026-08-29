@@ -2,11 +2,11 @@ import { authenticateUser } from "@/app/midelware/authenticateUser";
 import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 interface props {
-    params: { postId: string }
+    params: { id: string }
 }
 export async function POST(request:NextRequest,{params}:props) {
     try {
-        const postId = parseInt((await params).postId)
+        const postId = parseInt((await params).id)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
@@ -60,7 +60,7 @@ export async function POST(request:NextRequest,{params}:props) {
 export async function DELETE(request:NextRequest,{params}:props) {
     try {
         
-    const postId = parseInt((await params).postId)
+    const postId = parseInt((await params).id)
 
         const userPayload = await authenticateUser()
         if (!userPayload) {
