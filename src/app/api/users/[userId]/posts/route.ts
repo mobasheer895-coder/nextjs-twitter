@@ -1,13 +1,13 @@
 import { authenticateUser } from "@/app/midelware/authenticateUser";
 import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
-// interface props {
-//     params:Promise<{
-//         userId:string
-//     }>
-// }
+interface props {
+    params:Promise<{
+        userId:string
+    }>
+}
 
-export async function GET(request:NextRequest,{ params }: { params: Promise<{ userId: string }> }) {
+export async function GET(request:NextRequest,{ params }: props) {
     try {
         const userId = parseInt((await params).userId)
 
