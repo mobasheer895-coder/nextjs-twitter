@@ -66,7 +66,7 @@ export async function POST(request:NextRequest,{ params }: { params: Promise<{ u
         )
     }
 }
-export async function DELETE(request:NextRequest,{ params }: { params: Promise<{ userId: string }> }) {
+export async function DELETE(request:NextRequest,{ params }:{ params: Promise<{ userId: string }>}) {
     try {
         
     const userId = parseInt((await params).userId)
