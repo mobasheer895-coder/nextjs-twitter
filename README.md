@@ -25,9 +25,15 @@ npm install bcryptjs  @types/bcryptjs
 # zod
 npm install zod
 ```
-### ضمن مجلد المشروع الرئيسي .env انشاء ملف 
+### localhost ضمن مجلد المشروع الرئيسي للتشغيل على.env انشاء ملف 
 ```env
 DATABASE_URL="postgresql://postgres:2372005@localhost:5432/twitter_db"
+JWT_SECRET=privatekey123456789
+NODE_ENV=development
+```
+### db ضمن مجلد المشروع الرئيسي للتشغيل على.env انشاء ملف 
+```env
+DATABASE_URL="postgresql://neondb_owner:npg_Azq42YosVSQP@ep-cold-grass-ae2tmrdy-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 JWT_SECRET=privatekey123456789
 NODE_ENV=development
 ```
