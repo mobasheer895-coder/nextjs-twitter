@@ -77,7 +77,7 @@ export async function POST(request:NextRequest) {
         const filePath = path.join(uploadDir , fileName)
         // تحويل الملف المرفوع الى مصفوفة بايتات 0 و 1
         const buffer = Buffer.from(await imageFile.arrayBuffer())
-        // تقرئ ملف الصورةو تحوله الى مصفوفات بايتات
+        // كتابة وحفظ ملف الصورة
         fs.writeFileSync(filePath,new Uint8Array(buffer))
     }
     // التحقق من وجود المستخدم 
@@ -107,9 +107,9 @@ export async function POST(request:NextRequest) {
         )
     } catch (error) {
         return NextResponse.json(
-            {
-                message: 'internal server error',
-                error: error instanceof Error ? error.message : String(error)
+            { 
+                message: 'internal server error', 
+                error: (error as Error).message 
             },
             {status:500}
         )
