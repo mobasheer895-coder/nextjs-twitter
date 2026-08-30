@@ -68,6 +68,7 @@ export async function DELETE(request:NextRequest,{params}:props) {
     const postId = parseInt((await params).id)
         // اذا لا يوجد توكن يعيد خطأ
         const userPayload = await authenticateUser()
+        // اذا لا يوجد توكن يعيد خطأ
         if (!userPayload) {
             return NextResponse.json(
                 {message:'Unauthorized'},
