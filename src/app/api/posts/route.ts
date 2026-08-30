@@ -7,7 +7,9 @@ import { postSchima } from "@/utils/validationsSchema";
 
 export async function POST(request:NextRequest) {
     try {
+        // نتأكد من ان لديه صلاحية لانشائ بوست (لديه توكن)
         const user = await authenticateUser()
+        // اذا لا يوجد توكن يعيد خطأ
     if (!user) {
         return NextResponse.json({message:'Unauthorized: Please login first'} , {status:401})
     }
@@ -38,8 +40,9 @@ export async function POST(request:NextRequest) {
                 {status:422}
             )
         }
+        // فحص البيانات المُدخلة للتأكد من مطابقتها للشروط
         const validition = postSchima.safeParse({description})
-
+        // اذا لم تطابق الشروط تعيد رسالة الخطأ
         if (!validition.success) {
             return NextResponse.json(
                 { message: validition.error.issues[0].message },
@@ -97,14 +100,17 @@ export async function POST(request:NextRequest) {
                 userId:userId
             }
         })
-
+        // ارجاع قيمة انشاء البوست
         return NextResponse.json(
             {tweet:createdPost},
             {status:201}
         )
     } catch (error) {
         return NextResponse.json(
-            {message:'internal server error'},
+            {
+            message: 'internal server error',
+            error: error instanceof Error ? error.message : String(error)
+        },
             {status:500}
         )
     }
@@ -138,17 +144,20 @@ export async function GET(request:NextRequest) {
             }
         }
     })
-
+    // ارجاع قيمة البوستات
     return NextResponse.json(
         {data:posts},
         {status:200}
     )
 
 
-    } catch (error: any) {
-  return NextResponse.json(
-    { message: "internal server error", error: error.message || String(error) },
-    { status: 500 }
-  );
+    } catch (error) {
+        return NextResponse.json(
+            { 
+                message: 'internal server error', 
+                error: (error as Error).message 
+            },
+            {status:500}
+        )
 }
 }
