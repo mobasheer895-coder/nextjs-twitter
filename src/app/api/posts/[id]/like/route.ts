@@ -74,6 +74,17 @@ export async function DELETE(request:NextRequest,{params}:props) {
                 {status:401}
             )
         }
+         // (Id) التحقق من وجود البوست ضمن قاعدة البيانات من خلال 
+        const post = await prisma.posts.findUnique({
+            where:{id:postId}
+        })
+        // اذا كان البوست غير موجود يعيد خطأ
+        if (!post) {
+            return NextResponse.json(
+                { message: 'Post not found' },
+                { status: 404 }
+        )
+}
         // التحقق من وجود الاعجاب من المستخدم على هذا البوست 
         const existingLike = await prisma.likes.findFirst({
             where: {
