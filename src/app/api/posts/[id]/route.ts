@@ -186,7 +186,7 @@ export async function DELETE(request: NextRequest, { params }: props) {
                 { status: 404 }
             )
         }
-        // اذا لم يكن صاحب البوست هو الذي يعدل سيعيد اليه خطأ
+        // اذا لم يكن صاحب البوست هو الذي يحذف سيعيد اليه خطأ
         if (post.userId !== userPayload.id) {
             return NextResponse.json(
                 { message: 'forbidden' },
