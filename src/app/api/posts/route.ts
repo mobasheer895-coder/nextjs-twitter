@@ -17,7 +17,7 @@ export async function POST(request:NextRequest) {
     // يذهب الى اساس المشروع ثم الى المسار الموجود و يدمج المسارين معا
         const uploadDir = path.join(process.cwd(),'/public/uploads')
         // من اجل انواع ملفات المسموح رفعها
-        const allowedTypes = ['image/jpeg' , 'image/png' , 'image/webp' , 'image/jpg']
+        const allowedTypes = ['image/jpeg' , 'image/png' , 'image/webp']
         // (2MB) اكبر حجم للملف هو 
         const maxSize = 2 * 1024 * 1024
         // اذا لم يكن المجلد موجود ضمن المسار سوف ينشئه
@@ -108,9 +108,9 @@ export async function POST(request:NextRequest) {
     } catch (error) {
         return NextResponse.json(
             {
-            message: 'internal server error',
-            error: error instanceof Error ? error.message : String(error)
-        },
+                message: 'internal server error',
+                error: error instanceof Error ? error.message : String(error)
+            },
             {status:500}
         )
     }

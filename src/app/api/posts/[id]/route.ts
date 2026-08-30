@@ -3,7 +3,6 @@ import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fs from 'fs';
-import { buffer } from "stream/consumers";
 import { postSchima } from "@/utils/validationsSchema";
 interface props {
     params: Promise<{ id: string }>
@@ -11,36 +10,39 @@ interface props {
 
 export async function GET(request:NextRequest,{params}: props) {
     try {
-
+        // البوست Id 
         const postId  = parseInt((await params).id)
-
+        // نتأكد من ان لديه صلاحية لانشائ بوست (لديه توكن)
         const userPayload = await authenticateUser()
-
+        // اذا لا يوجد توكن يعيد خطأ
         if (!userPayload) {
             return NextResponse.json(
                 {message:'forbidden'},
                 {status:403}
             )
         }
-
+        // (Id) التحقق من وجود البوست ضمن قاعدة البيانات من خلال 
         const post = await prisma.posts.findUnique({
             where:{id:postId}
         })
-
+        // اذا كان البوست غير موجود يعيد خطأ
         if (!post) {
             return NextResponse.json(
                 {message:'post not found'},
                 {status:404}
             )
         }
-
+        // اعادة قيمة البوست
         return NextResponse.json(
             {post},
             {status:200}
         )
         } catch (error) {
             return NextResponse.json(
-                {message:'internal server error'},
+                { 
+                    message: 'internal server error', 
+                    error: (error as Error).message 
+                },
                 {status:500}
             )
         }
