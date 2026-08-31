@@ -41,8 +41,6 @@ NODE_ENV=development
 ```bash
 npx prisma migrate dev
 ```
-## ثانياً: تشغيل المشروع
-
 ### 1. تشغيل المشروع 
 
 ```bash
